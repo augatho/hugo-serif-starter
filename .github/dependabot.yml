@@ -8,11 +8,22 @@ updates:
       interval: "weekly"
     commit-message:
       prefix: "ci"
+    groups:
+      github-actions:
+        applies-to: version-updates
+        patterns: ["*"]
 
   # Dev tooling (pnpm devDependencies: stylelint). The site itself is zero-dep.
+  # This batches the weekly DIRECT devDependency bumps into one PR. It does not
+  # touch the stylelint advisory noise: version updates default to direct deps
+  # only, and security updates are ungrouped by design so each stays visible.
   - package-ecosystem: "npm"
     directory: "/"
     schedule:
       interval: "weekly"
     commit-message:
       prefix: "chore"
+    groups:
+      npm-dev:
+        applies-to: version-updates
+        patterns: ["*"]
